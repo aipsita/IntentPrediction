@@ -16,6 +16,9 @@ Write Data to HL2: viewer/unity_sample_text_1.py
 Combined code in: viewer/client_stream_eet_2.py
 
 Acknowledgements:
+
 https://dl.acm.org/doi/10.1145/3448018.3458008
+
 https://github.com/Interactions-HSG/GEAR
+
 https://github.com/jdibenes/hl2ss/tree/main
