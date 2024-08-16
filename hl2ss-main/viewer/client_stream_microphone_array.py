@@ -18,7 +18,7 @@ import threading
 # Settings --------------------------------------------------------------------
 
 # HoloLens address
-host = "192.168.1.7"
+host = "10.25.14.181"
 
 # Channel
 # Options:
@@ -50,6 +50,27 @@ def on_press(key):
     enable = key != keyboard.Key.esc
     return enable
 
+def is_speaking(audio_data, threshold=20):
+    """
+    Determines if the user is speaking based on the RMS value of the audio signal.
+    
+    Parameters:
+    - audio_data: The audio data in PCM format.
+    - threshold: The RMS threshold to determine if speech is present.
+    
+    Returns:
+    - True if speech is detected, False otherwise.
+    """
+    # Convert byte data to numpy array
+    audio_signal = np.frombuffer(audio_data, dtype=np.int16)
+    
+    # Calculate the RMS value
+    rms = np.sqrt(np.mean(audio_signal**2))
+    #print(rms)
+    
+    # Determine if the RMS value exceeds the threshold
+    return rms > threshold
+
 pcmqueue = queue.Queue()
 thread = threading.Thread(target=pcmworker, args=(pcmqueue,))
 listener = keyboard.Listener(on_press=on_press)
@@ -62,7 +83,22 @@ client.open()
 while (enable): 
     data = client.get_next_packet()
     audio = data.payload[0, channel::hl2ss.Parameters_MICROPHONE.ARRAY_CHANNELS]
-    pcmqueue.put(audio.tobytes())
+    #pcmqueue.put(audio.tobytes())
+    
+    # Ensure the audio array is contiguous
+    audio_contiguous = np.ascontiguousarray(audio)
+    
+    # Convert to bytes and put in queue
+    pcmqueue.put(audio_contiguous.tobytes())
+    
+    # Get audio data from queue
+    audio_data = pcmqueue.get()
+    
+    # Check if the user is speaking
+    if is_speaking(audio_data):
+        print("User is speaking")
+    else:
+        print(" ")
 
 client.close()
 

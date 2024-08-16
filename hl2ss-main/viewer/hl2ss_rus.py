@@ -80,4 +80,10 @@ class command_buffer(hl2ss.umq_command_buffer):
         # Command id: 0xFFFFFFFD
         # Command params: empty byte data (id enough to indicate purpose)
         self.add(0xFFFFFFFD, string.encode('utf-8'))
+        
+    # Indicate successful connection
+    def connect_success_voice(self, string):
+        # Command id: 0xFFFFFFFD
+        # Command params: empty byte data (id enough to indicate purpose)
+        self.add(0xFFFFFFFC, string.encode('utf-8'))
 

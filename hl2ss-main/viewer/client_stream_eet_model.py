@@ -14,7 +14,7 @@ import os
 # Settings --------------------------------------------------------------------
 
 # HoloLens address
-host = '10.25.244.47'
+host = '192.168.1.179'
 
 # Target Frame Rate
 # Options: 30, 60, 90

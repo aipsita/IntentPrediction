@@ -1,0 +1,3 @@
+#JSGF V1.0;
+grammar keyword;
+public <keyword> = (left|right|above|below|front|back|disappear|submit);

@@ -8,7 +8,7 @@ import hl2ss_rus
 # Settings --------------------------------------------------------------------
 
 # HoloLens address
-host = '192.168.1.179'
+host = '10.25.14.181'
 
 # Target Frame Rate
 # Options: 30, 60, 90
